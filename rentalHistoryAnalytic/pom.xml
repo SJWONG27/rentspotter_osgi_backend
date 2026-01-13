@@ -159,6 +159,10 @@
                         </Import-Package>
 
                         <Private-Package>com.example.osgi.*</Private-Package>
+
+                        <Export-Package>
+                            rentalHistoryAnalytic.*
+                        </Export-Package>
                     </instructions>
 
                 </configuration>

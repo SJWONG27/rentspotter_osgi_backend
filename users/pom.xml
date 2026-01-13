@@ -159,6 +159,11 @@
                         </Import-Package>
 
                         <Private-Package>com.example.osgi.*</Private-Package>
+
+                        <Export-Package>
+                            authentication.*
+                        </Export-Package>
+
                     </instructions>
 
                 </configuration>

@@ -159,6 +159,10 @@
                         </Import-Package>
 
                         <Private-Package>com.example.osgi.*</Private-Package>
+
+                        <Export-Package>
+                            reviewApplicant.*
+                        </Export-Package>
                     </instructions>
 
                 </configuration>
