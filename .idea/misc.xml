@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="Osmorc" url="file://$PROJECT_DIR$/rentspotter_users" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/users" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/rentspotter_leaseAgreement/pom.xml" />
+        <option value="$PROJECT_DIR$/rentspotter_users/pom.xml" />
+        <option value="$PROJECT_DIR$/rentalHistoryAnalytic/pom.xml" />
+        <option value="$PROJECT_DIR$/landlordProperty/pom.xml" />
+        <option value="$PROJECT_DIR$/tenantApplication/pom.xml" />
+        <option value="$PROJECT_DIR$/reviewApplicant/pom.xml" />
+        <option value="$PROJECT_DIR$/users/pom.xml" />
+        <option value="$PROJECT_DIR$/leaseAgreement/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="homebrew-23" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

@@ -1,0 +1,15 @@
+authentication/MongoClientProvider.class
+authentication/persistence/repository/UserRepository.class
+authentication/api/model/User.class
+authentication/persistence/mongo/UserDocument.class
+authentication/MongoTestApi.class
+authentication/security/JwtConfig.class
+authentication/security/JwtUtil.class
+authentication/persistence/repository/UserRepositoryImpl.class
+authentication/api/service/UserService.class
+authentication/security/JwtProvider.class
+authentication/api/dto/RegisterRequest.class
+authentication/App.class
+authentication/service/UserServiceImpl.class
+authentication/Config.class
+authentication/web/UserController.class

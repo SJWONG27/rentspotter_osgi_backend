@@ -1,0 +1,15 @@
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/security/JwtUtil.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/api/service/UserService.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/security/JwtConfig.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/persistence/repository/UserRepository.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/api/model/User.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/web/UserController.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/MongoTestApi.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/api/dto/RegisterRequest.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/MongoClientProvider.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/persistence/mongo/UserDocument.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/service/UserServiceImpl.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/security/JwtProvider.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/Config.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/App.java
+/Users/sjwong/Desktop/rentspotter_osgi_backend/users/src/main/java/authentication/persistence/repository/UserRepositoryImpl.java
