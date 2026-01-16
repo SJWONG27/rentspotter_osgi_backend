@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="Osmorc" url="file://$PROJECT_DIR$/landlordProperty" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/leaseAgreement" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/rentalHistoryAnalytic" />
     <file type="Osmorc" url="file://$PROJECT_DIR$/rentspotter_users" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/reviewApplicant" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/tenantApplication" />
     <file type="Osmorc" url="file://$PROJECT_DIR$/users" />
   </component>
   <component name="MavenProjectsManager">

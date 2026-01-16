@@ -1,10 +1,17 @@
 package leaseAgreement.persistence;
 
-import leaseAgreement.api.model.LeaseAgreement;
+import leaseAgreement.api.model.LeaseAgreementModel;
+
+import java.util.List;
 
 public interface LeaseAgreementRepository {
-    void save(LeaseAgreement leaseAgreement);
+    void save(LeaseAgreementModel lease);
 
-    LeaseAgreement findById(String id);
+    void update(LeaseAgreementModel lease);
 
+    LeaseAgreementModel findById(String leaseId);
+
+    LeaseAgreementModel findByApplicationId(String applicationId);
+
+    List<LeaseAgreementModel> findByTenantIdOrderByDayDesc(String tenantId);
 }

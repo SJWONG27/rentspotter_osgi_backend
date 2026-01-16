@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/landlordProperty/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/landlordProperty/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leaseAgreement/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leaseAgreement/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rentalHistoryAnalytic/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rentalHistoryAnalytic/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rentspotter_users/src/main/java" charset="UTF-8" />

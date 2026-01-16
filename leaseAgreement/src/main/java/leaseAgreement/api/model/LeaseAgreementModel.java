@@ -3,47 +3,50 @@ package leaseAgreement.api.model;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.types.ObjectId;
 
-public class LeaseAgreement {
+import java.io.Serializable;
+
+public class LeaseAgreementModel implements Serializable {
     @BsonId
     private ObjectId id;
 
-    // Relationships (Pasted as Strings from Postman)
+
     private String tenantId;
     private String landlordId;
     private String propertyId;
     private String applicationId;
 
-    // Dates
+    private LeaseAgreementStatus leaseStatus = LeaseAgreementStatus.NOT_APPLICABLE;
+
     private String day;
     private String month;
     private String year;
-    private String effectiveDate;
-    private String expireDate;
-
-    // Parties Info
     private String lessorName;
     private String lessorIc;
     private String lesseeName;
-    private String lesseeIc;
     private String address;
-
-    // Financials
+    private String effectiveDate;
+    private String expireDate;
     private String rentRmWord;
-    private double rentRmNum;
-    private int advanceDay;
+    private Double rentRmNum;
+    private Integer advanceDay;
     private String depositRmWord;
-    private double depositRmNum;
-
-    // Contact & Signatures
+    private Double depositRmNum;
     private String lessorAdd;
     private String lessorTel;
+    private String lessorFax;
+    private String lesseeAdd;
+    private String lesseeTel;
+    private String lesseeFax;
+    private String lessorDesignation;
     private String lessorSignature;
+    private String lesseeIc;
+    private String lesseeDesignation;
     private String lesseeSignature;
+    private Boolean completed = false;
+    private String pdf; // Base64 String
 
-    // PDF Data (Buffer in Node = byte[] in Java)
-    private boolean completed = false;
-    private byte[] completedPdfData;
-    private String contentType;
+    public LeaseAgreementModel() {
+    }
 
     public ObjectId getId() {
         return id;
@@ -85,6 +88,14 @@ public class LeaseAgreement {
         this.applicationId = applicationId;
     }
 
+    public LeaseAgreementStatus getLeaseStatus() {
+        return leaseStatus;
+    }
+
+    public void setLeaseStatus(LeaseAgreementStatus leaseStatus) {
+        this.leaseStatus = leaseStatus;
+    }
+
     public String getDay() {
         return day;
     }
@@ -107,22 +118,6 @@ public class LeaseAgreement {
 
     public void setYear(String year) {
         this.year = year;
-    }
-
-    public String getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(String effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    public String getExpireDate() {
-        return expireDate;
-    }
-
-    public void setExpireDate(String expireDate) {
-        this.expireDate = expireDate;
     }
 
     public String getLessorName() {
@@ -149,20 +144,28 @@ public class LeaseAgreement {
         this.lesseeName = lesseeName;
     }
 
-    public String getLesseeIc() {
-        return lesseeIc;
-    }
-
-    public void setLesseeIc(String lesseeIc) {
-        this.lesseeIc = lesseeIc;
-    }
-
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(String effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
     }
 
     public String getRentRmWord() {
@@ -173,19 +176,19 @@ public class LeaseAgreement {
         this.rentRmWord = rentRmWord;
     }
 
-    public double getRentRmNum() {
+    public Double getRentRmNum() {
         return rentRmNum;
     }
 
-    public void setRentRmNum(double rentRmNum) {
+    public void setRentRmNum(Double rentRmNum) {
         this.rentRmNum = rentRmNum;
     }
 
-    public int getAdvanceDay() {
+    public Integer getAdvanceDay() {
         return advanceDay;
     }
 
-    public void setAdvanceDay(int advanceDay) {
+    public void setAdvanceDay(Integer advanceDay) {
         this.advanceDay = advanceDay;
     }
 
@@ -197,11 +200,11 @@ public class LeaseAgreement {
         this.depositRmWord = depositRmWord;
     }
 
-    public double getDepositRmNum() {
+    public Double getDepositRmNum() {
         return depositRmNum;
     }
 
-    public void setDepositRmNum(double depositRmNum) {
+    public void setDepositRmNum(Double depositRmNum) {
         this.depositRmNum = depositRmNum;
     }
 
@@ -221,12 +224,68 @@ public class LeaseAgreement {
         this.lessorTel = lessorTel;
     }
 
+    public String getLessorFax() {
+        return lessorFax;
+    }
+
+    public void setLessorFax(String lessorFax) {
+        this.lessorFax = lessorFax;
+    }
+
+    public String getLesseeAdd() {
+        return lesseeAdd;
+    }
+
+    public void setLesseeAdd(String lesseeAdd) {
+        this.lesseeAdd = lesseeAdd;
+    }
+
+    public String getLesseeTel() {
+        return lesseeTel;
+    }
+
+    public void setLesseeTel(String lesseeTel) {
+        this.lesseeTel = lesseeTel;
+    }
+
+    public String getLesseeFax() {
+        return lesseeFax;
+    }
+
+    public void setLesseeFax(String lesseeFax) {
+        this.lesseeFax = lesseeFax;
+    }
+
+    public String getLessorDesignation() {
+        return lessorDesignation;
+    }
+
+    public void setLessorDesignation(String lessorDesignation) {
+        this.lessorDesignation = lessorDesignation;
+    }
+
     public String getLessorSignature() {
         return lessorSignature;
     }
 
     public void setLessorSignature(String lessorSignature) {
         this.lessorSignature = lessorSignature;
+    }
+
+    public String getLesseeIc() {
+        return lesseeIc;
+    }
+
+    public void setLesseeIc(String lesseeIc) {
+        this.lesseeIc = lesseeIc;
+    }
+
+    public String getLesseeDesignation() {
+        return lesseeDesignation;
+    }
+
+    public void setLesseeDesignation(String lesseeDesignation) {
+        this.lesseeDesignation = lesseeDesignation;
     }
 
     public String getLesseeSignature() {
@@ -237,27 +296,19 @@ public class LeaseAgreement {
         this.lesseeSignature = lesseeSignature;
     }
 
-    public boolean isCompleted() {
+    public Boolean getCompleted() {
         return completed;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(Boolean completed) {
         this.completed = completed;
     }
 
-    public byte[] getCompletedPdfData() {
-        return completedPdfData;
+    public String getPdf() {
+        return pdf;
     }
 
-    public void setCompletedPdfData(byte[] completedPdfData) {
-        this.completedPdfData = completedPdfData;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setPdf(String pdf) {
+        this.pdf = pdf;
     }
 }
