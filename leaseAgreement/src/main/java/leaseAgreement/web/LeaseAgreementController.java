@@ -1,8 +1,6 @@
 package leaseAgreement.web;
 
-import authentication.web.UserController;
 import leaseAgreement.api.model.LeaseAgreementModel;
-import leaseAgreement.api.model.LeaseAgreementStatus;
 import leaseAgreement.api.service.EmailService;
 import leaseAgreement.api.service.LeaseAgreementService;
 import org.osgi.service.component.annotations.Component;
@@ -40,23 +38,14 @@ public class LeaseAgreementController {
     @PUT
     @Path("/update-lease/{applicationId}")
     public Response updateLeaseAgreement(@PathParam("applicationId") String applicationId, LeaseAgreementModel leaseData) {
-        Optional<LeaseAgreementModel> existingLease = leaseAgreementService.findByApplicationId(applicationId);
-        Map<String, Object> response = new HashMap<>();
-
-        if (existingLease.isEmpty()) {
-            response.put("status", "error");
-            response.put("message", "lease does not exist");
-            return Response.ok(response).build();
-        }
-
-        LeaseAgreementModel lease = existingLease.get();
-        updateLeaseFields(lease, leaseData);
-        lease.setLeaseStatus(LeaseAgreementStatus.UNDER_REVIEW_BY_TENANT);
-        leaseAgreementService.save(lease);
-
-        response.put("status", "success");
-        response.put("leaseId", lease.getId().toHexString());
-        return Response.ok(response).build();
+        return leaseAgreementService.updateLease(applicationId, leaseData)
+                .map(lease -> {
+                    Map<String, Object> res = new HashMap<>();
+                    res.put("status", "success");
+                    res.put("leaseId", lease.getId().toHexString());
+                    return Response.ok(res).build();
+                })
+                .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
 
     // UC-13 View Lease Agreement Status
@@ -78,30 +67,38 @@ public class LeaseAgreementController {
     @POST
     @Path("/submit-landlord/{applicationId}")
     public Response submitLandlordLease(@PathParam("applicationId") String applicationId, LeaseAgreementModel leaseData) {
-        if (leaseAgreementService.findByApplicationId(applicationId).isPresent()) {
-            Map<String, String> err = new HashMap<>();
-            err.put("message", "lease existed");
-            return Response.status(Response.Status.CONFLICT).entity(err).build();
-        }
-
-        leaseData.setApplicationId(applicationId);
-        leaseData.setLeaseStatus(LeaseAgreementStatus.UNDER_REVIEW_BY_TENANT);
-        LeaseAgreementModel saved = leaseAgreementService.save(leaseData);
-
-        Map<String, String> res = new HashMap<>();
-        res.put("status", "success");
-        res.put("leaseAgreementId", saved.getId().toHexString());
-        return Response.ok(res).build();
+        return leaseAgreementService.submitLandlordLease(applicationId, leaseData)
+                .map(saved -> {
+                    Map<String, String> res = new HashMap<>();
+                    res.put("status", "success");
+                    res.put("leaseAgreementId", saved.getId().toHexString());
+                    return Response.ok(res).build();
+                })
+                .orElseGet(() -> {
+                    Map<String, String> err = new HashMap<>();
+                    err.put("message", "lease existed");
+                    return Response.status(Response.Status.CONFLICT).entity(err).build();
+                });
     }
 
     @PUT
     @Path("/save-pdf/{leaseId}")
     public Response savePdf(@PathParam("leaseId") String leaseId,  Map<String, String> body) {
-        return leaseAgreementService.findById(leaseId).map(lease -> {
-            lease.setPdf(body.get("pdfBase64"));
-            leaseAgreementService.save(lease);
-            return Response.ok("PDF saved successfully").build();
-        }).orElse(Response.status(Response.Status.NOT_FOUND).build());
+        return leaseAgreementService.savePdf(
+                    leaseId,
+                    body.get("pdfBase64")
+                )
+                .map(saved -> {
+                    Map<String, String> res = new HashMap<>();
+                    res.put("status", "success");
+                    res.put("leaseAgreementId", saved.getId().toHexString());
+                    return Response.ok(res).build();
+                })
+                .orElseGet(() -> {
+                    Map<String, String> err = new HashMap<>();
+                    err.put("message", "pdf cannot be saved");
+                    return Response.status(Response.Status.CONFLICT).entity(err).build();
+                });
     }
 
     // Tenant
@@ -129,26 +126,19 @@ public class LeaseAgreementController {
     @PUT
     @Path("/submit-tenant/{leaseId}")
     public Response submitTenantLease(@PathParam("leaseId") String leaseId, Map<String, String> body) {
-        Optional<LeaseAgreementModel> opLease = leaseAgreementService.findById(leaseId);
-        if (opLease.isEmpty()) return Response.status(404).build();
-
-        LeaseAgreementModel lease = opLease.get();
-        lease.setLesseeIc(body.get("lesseeIc"));
-        lease.setLesseeDesignation(body.get("lesseeDesignation"));
-        lease.setLesseeSignature(body.get("lesseeSignature"));
-        lease.setLeaseStatus(LeaseAgreementStatus.EFFECTIVE);
-        leaseAgreementService.save(lease);
-
-        Map<String, String> res = new HashMap<>();
-        res.put("status", "success");
-        return Response.ok(res).build();
-    }
-
-    private void updateLeaseFields(LeaseAgreementModel target, LeaseAgreementModel source) {
-        target.setDay(source.getDay());
-        target.setMonth(source.getMonth());
-        target.setYear(source.getYear());
-        target.setRentRmNum(source.getRentRmNum());
+        return leaseAgreementService.submitTenantLease(
+                    leaseId,
+                    body.get("lesseeIc"),
+                    body.get("lesseeDesignation"),
+                    body.get("lesseeSignature")
+                )
+                .map(lease -> {
+                    Map<String, Object> res = new HashMap<>();
+                    res.put("status", "success");
+                    res.put("leaseId", lease.getId().toHexString());
+                    return Response.ok(res).build();
+                })
+                .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
 
     // UC-18 Notify landlord after tenant signed
@@ -161,7 +151,7 @@ public class LeaseAgreementController {
                 + "Lease agreement with (" + recipientEmail + ") was signed by tenant. "
                 + "Please proceed with the next step. \n\n"
                 + "Best regards,\n"
-                + "The AcadProBot Team";
+                + "The Team";
 
         emailService.sendEmail(recipientEmail, subject, body);
         return "Reset Email Sent";

@@ -10,4 +10,17 @@ public interface LeaseAgreementService {
     Optional<LeaseAgreementModel> findByApplicationId(String applicationId);
     List<LeaseAgreementModel> findByTenantId(String tenantId);
     LeaseAgreementModel save(LeaseAgreementModel lease);
+    Optional<LeaseAgreementModel> updateLease(String applicationId, LeaseAgreementModel data);
+    Optional<LeaseAgreementModel> submitLandlordLease(
+            String applicationId,
+            LeaseAgreementModel data
+    );
+    Optional<LeaseAgreementModel> submitTenantLease(
+            String leaseId,
+            String lesseeIc,
+            String lesseeDesignation,
+            String lesseeSignature
+    );
+
+    Optional<LeaseAgreementModel> savePdf(String leaseId, String pdfBase64);
 }

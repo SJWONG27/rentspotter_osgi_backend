@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1768559992148
+Bnd-LastModified: 1768649417834
 Build-Jdk-Spec: 21
 Bundle-ClassPath: .,mongodb-driver-sync-5.3.0.jar,mongodb-driver-core-5.
  3.0.jar,bson-5.3.0.jar,jjwt-api-0.12.5.jar,jjwt-impl-0.12.5.jar,jjwt-ja
