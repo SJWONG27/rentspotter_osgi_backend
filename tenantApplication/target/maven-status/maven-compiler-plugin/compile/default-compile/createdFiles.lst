@@ -1,0 +1,9 @@
+tenantApplication\model\Application$ApplicationStatus.class
+tenantApplication\rest\TenantResource.class
+tenantApplication\model\Application.class
+tenantApplication\MongoClientProvider.class
+tenantApplication\MongoTestApi.class
+tenantApplication\service\TenantApplicationService.class
+tenantApplication\App.class
+tenantApplication\Config.class
+tenantApplication\service\impl\TenantApplicationServiceImpl.class
