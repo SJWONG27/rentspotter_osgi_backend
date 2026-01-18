@@ -56,6 +56,8 @@ public class LeaseAgreementServiceImpl implements LeaseAgreementService {
         target.setRentRmNum(source.getRentRmNum());
     }
 
+    // Landlord
+    // UC-12 Renew Existing Landlord LeaseAgreementModel Agreement
     @Override
     public Optional<LeaseAgreementModel> updateLease(
             String applicationId,
@@ -68,6 +70,7 @@ public class LeaseAgreementServiceImpl implements LeaseAgreementService {
         });
     }
 
+    // UC-14 Submit Landlord LeaseAgreementModel Agreement (Create or Update)
     @Override
     public Optional<LeaseAgreementModel> submitLandlordLease(
             String applicationId,
@@ -81,6 +84,7 @@ public class LeaseAgreementServiceImpl implements LeaseAgreementService {
         return Optional.of(save(data));
     }
 
+    // UC-17 Submit Tenant LeaseAgreementModel Agreement
     @Override
     public Optional<LeaseAgreementModel> submitTenantLease(
             String leaseId,
