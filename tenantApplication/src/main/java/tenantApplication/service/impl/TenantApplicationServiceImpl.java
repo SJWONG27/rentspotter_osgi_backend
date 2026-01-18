@@ -59,6 +59,12 @@ public class TenantApplicationServiceImpl implements TenantApplicationService {
 
     @Override
     public Application submitApplication(String tenantId, String propertyId, Double monthlyIncome, String occupation, String message) {
+        if (tenantId == null || tenantId.isEmpty()) throw new RuntimeException("Tenant ID is required");
+        if (propertyId == null || propertyId.isEmpty()) throw new RuntimeException("Property ID is required");
+        if (monthlyIncome == null || monthlyIncome <= 0) throw new RuntimeException("Monthly income must be greater than 0");
+        if (occupation == null || occupation.isEmpty()) throw new RuntimeException("Occupation is required");
+        if (message == null || message.isEmpty()) throw new RuntimeException("Message is required");
+
         // Validation: Property exists?
         Property prop = getPropertyDetails(propertyId);
         if (prop == null) {
