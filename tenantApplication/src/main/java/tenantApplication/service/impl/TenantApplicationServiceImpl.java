@@ -65,6 +65,17 @@ public class TenantApplicationServiceImpl implements TenantApplicationService {
             throw new RuntimeException("Property not found");
         }
 
+        // Check for duplicate pending applications
+        Document existingApp = getCollection().find(Filters.and(
+                Filters.eq("tenantId", tenantId),
+                Filters.eq("propertyId", propertyId),
+                Filters.eq("status", Application.ApplicationStatus.PENDING.name())
+        )).first();
+
+        if (existingApp != null) {
+            throw new RuntimeException("You already have a pending application for this property.");
+        }
+
         Application app = new Application(tenantId, propertyId, monthlyIncome, occupation, message);
         
         Document doc = new Document("tenantId", app.getTenantId())
