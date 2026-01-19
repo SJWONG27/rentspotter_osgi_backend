@@ -12,11 +12,11 @@ import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component(service = TenantResource.class, property = { "osgi.jaxrs.resource=true" })
+@Component(service = TenantApplicationController.class, property = { "osgi.jaxrs.resource=true" })
 @Path("/api/tenant")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class TenantResource {
+public class TenantApplicationController {
 
     @Reference
     private TenantApplicationService tenantApplicationService;
