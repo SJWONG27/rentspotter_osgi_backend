@@ -161,7 +161,8 @@
                         <Private-Package>com.example.osgi.*</Private-Package>
 
                         <Export-Package>
-                            landlordProperty.*
+                            landlordProperty.model,
+                            landlordProperty.service
                         </Export-Package>
                     </instructions>
 
