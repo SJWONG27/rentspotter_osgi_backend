@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="tenantApplication" />
         <module name="rentalHistoryAnalytic" />
+        <module name="leaseAgreement" />
         <module name="landlordProperty" />
         <module name="users" />
         <module name="reviewApplicant" />
