@@ -14,7 +14,10 @@ import java.util.Map;
 
 @Component(
     service = ReviewApplicantController.class, 
-    property = { "osgi.jaxrs.resource=true" }
+    property = { 
+        "osgi.jaxrs.resource=true",
+        "osgi.jaxrs.application.select=(osgi.jaxrs.name=.default)"
+    }
 )
 @Path("/api/review")
 @Produces(MediaType.APPLICATION_JSON)

@@ -158,8 +158,6 @@
 
                         <Import-Package>
                             javax.ws.rs*;version="[2.1,3)",
-
-
                             com.oracle.svm.core.annotate;resolution:=optional,
                             com.amazonaws.*;resolution:=optional,
                             software.amazon.awssdk.*;resolution:=optional,
@@ -169,17 +167,12 @@
                             jnr.unixsocket;resolution:=optional,
                             javax.annotation.meta;resolution:=optional,
                             sun.nio.ch;resolution:=optional,
-
-                            !com.example.osgi.*,
+                            !reviewApplicant.*,
                             *
                         </Import-Package>
 
-                        <Private-Package>com.example.osgi.*</Private-Package>
-
                         <Export-Package>
-                            reviewApplicant.model.*;
-                            reviewApplicant.service.*;
-                            reviewApplicant.repository.*
+                            reviewApplicant.*;version="1.0.0"
                         </Export-Package>
                     </instructions>
 

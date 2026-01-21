@@ -1,7 +1,7 @@
-D:\workspace\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\App.java
-D:\workspace\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\MongoClientProvider.java
-D:\workspace\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\service\impl\PropertyServiceImpl.java
-D:\workspace\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\service\PropertyService.java
-D:\workspace\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\MongoTestApi.java
-D:\workspace\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\Config.java
-D:\workspace\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\model\Property.java
+C:\Users\User\Desktop\CBSE-osgi\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\service\PropertyService.java
+C:\Users\User\Desktop\CBSE-osgi\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\App.java
+C:\Users\User\Desktop\CBSE-osgi\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\MongoTestApi.java
+C:\Users\User\Desktop\CBSE-osgi\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\service\impl\PropertyServiceImpl.java
+C:\Users\User\Desktop\CBSE-osgi\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\MongoClientProvider.java
+C:\Users\User\Desktop\CBSE-osgi\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\model\Property.java
+C:\Users\User\Desktop\CBSE-osgi\rentspotter_osgi_backend\landlordProperty\src\main\java\landlordProperty\Config.java
