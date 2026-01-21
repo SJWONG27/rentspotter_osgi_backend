@@ -1,16 +1,18 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1768875902772
+Bnd-LastModified: 1768972224664
 Build-Jdk-Spec: 17
 Bundle-ClassPath: .,mongodb-driver-sync-5.3.0.jar,mongodb-driver-core-5.
  3.0.jar,bson-5.3.0.jar,jjwt-api-0.12.5.jar,jjwt-impl-0.12.5.jar,jjwt-ja
- ckson-0.12.5.jar,spring-security-crypto-6.2.1.jar
+ ckson-0.12.5.jar,spring-security-crypto-6.2.1.jar,jackson-module-jaxb-a
+ nnotations-2.19.2.jar
 Bundle-ManifestVersion: 2
 Bundle-Name: rentalspotter_tenantapplication
 Bundle-SymbolicName: rentalspotter_tenantapplication
 Bundle-Version: 1.0.0.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin 6.0.0
 Embed-Dependency: mongodb-driver-sync,mongodb-driver-core,bson,jjwt-api,
- jjwt-impl,jjwt-jackson, spring-security-crypto
+ jjwt-impl,jjwt-jackson, spring-security-crypto,jackson-module-jaxb-anno
+ tations
 Embedded-Artifacts: mongodb-driver-sync-5.3.0.jar;g="org.mongodb";a="mon
  godb-driver-sync";v="5.3.0",mongodb-driver-core-5.3.0.jar;g="org.mongod
  b";a="mongodb-driver-core";v="5.3.0",bson-5.3.0.jar;g="org.mongodb";a="
@@ -18,7 +20,9 @@ Embedded-Artifacts: mongodb-driver-sync-5.3.0.jar;g="org.mongodb";a="mon
  "0.12.5",jjwt-impl-0.12.5.jar;g="io.jsonwebtoken";a="jjwt-impl";v="0.12
  .5",jjwt-jackson-0.12.5.jar;g="io.jsonwebtoken";a="jjwt-jackson";v="0.1
  2.5",spring-security-crypto-6.2.1.jar;g="org.springframework.security";
- a="spring-security-crypto";v="6.2.1"
+ a="spring-security-crypto";v="6.2.1",jackson-module-jaxb-annotations-2.
+ 19.2.jar;g="com.fasterxml.jackson.module";a="jackson-module-jaxb-annota
+ tions";v="2.19.2"
 Export-Package: tenantApplication;uses:="javax.ws.rs,javax.ws.rs.core";v
  ersion="1.0.0",tenantApplication.model;version="1.0.0",tenantApplicatio
  n.repository;uses:="tenantApplication.model";version="1.0.0",tenantAppl
@@ -39,32 +43,44 @@ Import-Package: javax.ws.rs;version="[2.1,3)",javax.ws.rs.core;version="
  etty.handler.ssl;resolution:=optional,io.netty.handler.timeout;resoluti
  on:=optional,io.netty.util.concurrent;resolution:=optional,jnr.unixsock
  et;resolution:=optional,javax.annotation.meta;resolution:=optional,sun.
- nio.ch;resolution:=optional,com.fasterxml.jackson.core;version="[2.19,3
- )",com.fasterxml.jackson.databind;version="[2.19,3)",com.fasterxml.jack
- son.databind.deser.std;version="[2.19,3)",com.fasterxml.jackson.databin
- d.module;version="[2.19,3)",com.fasterxml.jackson.databind.ser.std;vers
- ion="[2.19,3)",com.mongodb.crypt.capi;resolution:=optional,com.mongodb.
- internal.crypt.capi;resolution:=optional,java.io,java.lang,java.lang.an
- notation,java.lang.invoke,java.lang.management,java.lang.reflect,java.m
- ath,java.net,java.nio,java.nio.channels,java.nio.charset,java.nio.file,
- java.security,java.security.cert,java.security.interfaces,java.security
- .spec,java.text,java.time,java.time.format,java.time.temporal,java.util
- ,java.util.concurrent,java.util.concurrent.atomic,java.util.concurrent.
- locks,java.util.function,java.util.logging,java.util.regex,java.util.st
- ream,java.util.zip,javax.annotation;version="[1.3,2)",javax.crypto,java
- x.crypto.spec,javax.management,javax.naming,javax.naming.directory,java
- x.naming.spi,javax.net,javax.net.ssl,javax.security.auth,javax.security
- .auth.callback,javax.security.auth.kerberos,javax.security.auth.login,j
- avax.security.sasl,jdk.net;resolution:=optional,landlordProperty.model;
- version="[1.0,2)",landlordProperty.service;version="[1.0,2)",org.apache
- .commons.logging,org.bouncycastle.crypto,org.bouncycastle.crypto.engine
- s,org.bouncycastle.crypto.generators,org.bouncycastle.crypto.modes,org.
- bouncycastle.crypto.paddings,org.bouncycastle.crypto.params,org.bouncyc
- astle.util,org.bson.codecs.kotlin;resolution:=optional,org.bson.codecs.
- kotlinx;resolution:=optional,org.bson.codecs.record;resolution:=optiona
- l;version="[5.3,6)",org.ietf.jgss,org.slf4j;resolution:=optional,sun.mi
- sc,tenantApplication.model,tenantApplication.repository,tenantApplicati
- on.rest,tenantApplication.service,tenantApplication.service.impl
+ nio.ch;resolution:=optional,com.fasterxml.jackson.annotation;version="[
+ 2.19,3)",com.fasterxml.jackson.core;version="[2.19,3)",com.fasterxml.ja
+ ckson.core.util;version="[2.19,3)",com.fasterxml.jackson.databind;versi
+ on="[2.19,3)",com.fasterxml.jackson.databind.cfg;version="[2.19,3)",com
+ .fasterxml.jackson.databind.deser.std;version="[2.19,3)",com.fasterxml.
+ jackson.databind.introspect;version="[2.19,3)",com.fasterxml.jackson.da
+ tabind.jsonFormatVisitors;version="[2.19,3)",com.fasterxml.jackson.data
+ bind.jsontype;version="[2.19,3)",com.fasterxml.jackson.databind.jsontyp
+ e.impl;version="[2.19,3)",com.fasterxml.jackson.databind.module;version
+ ="[2.19,3)",com.fasterxml.jackson.databind.node;version="[2.19,3)",com.
+ fasterxml.jackson.databind.ser.std;version="[2.19,3)",com.fasterxml.jac
+ kson.databind.type;version="[2.19,3)",com.fasterxml.jackson.databind.ut
+ il;version="[2.19,3)",com.mongodb.crypt.capi;resolution:=optional,com.m
+ ongodb.internal.crypt.capi;resolution:=optional,java.io,java.lang,java.
+ lang.annotation,java.lang.invoke,java.lang.management,java.lang.reflect
+ ,java.math,java.net,java.nio,java.nio.channels,java.nio.charset,java.ni
+ o.file,java.security,java.security.cert,java.security.interfaces,java.s
+ ecurity.spec,java.text,java.time,java.time.format,java.time.temporal,ja
+ va.util,java.util.concurrent,java.util.concurrent.atomic,java.util.conc
+ urrent.locks,java.util.function,java.util.logging,java.util.regex,java.
+ util.stream,java.util.zip,javax.activation;resolution:=optional;version
+ ="[1.2,2)",javax.annotation;version="[1.3,2)",javax.crypto,javax.crypto
+ .spec,javax.management,javax.naming,javax.naming.directory,javax.naming
+ .spi,javax.net,javax.net.ssl,javax.security.auth,javax.security.auth.ca
+ llback,javax.security.auth.kerberos,javax.security.auth.login,javax.sec
+ urity.sasl,javax.xml.bind;version="[2.3,3)",javax.xml.bind.annotation;v
+ ersion="[2.3,3)",javax.xml.bind.annotation.adapters;version="[2.3,3)",j
+ avax.xml.parsers,jdk.net;resolution:=optional,landlordProperty.model;ve
+ rsion="[1.0,2)",landlordProperty.service;version="[1.0,2)",org.apache.c
+ ommons.logging,org.bouncycastle.crypto,org.bouncycastle.crypto.engines,
+ org.bouncycastle.crypto.generators,org.bouncycastle.crypto.modes,org.bo
+ uncycastle.crypto.paddings,org.bouncycastle.crypto.params,org.bouncycas
+ tle.util,org.bson.codecs.kotlin;resolution:=optional,org.bson.codecs.ko
+ tlinx;resolution:=optional,org.bson.codecs.record;resolution:=optional;
+ version="[5.3,6)",org.ietf.jgss,org.slf4j;resolution:=optional,org.w3c.
+ dom,sun.misc,tenantApplication.model,tenantApplication.repository,tenan
+ tApplication.rest,tenantApplication.service,tenantApplication.service.i
+ mpl
 Provide-Capability: osgi.service;objectClass:List<String>="java.lang.Obj
  ect",osgi.service;objectClass:List<String>="tenantApplication.MongoClie
  ntProvider";uses:=tenantApplication,osgi.service;objectClass:List<Strin

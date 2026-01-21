@@ -98,6 +98,11 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.19.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jaxb-annotations</artifactId>
+            <version>2.19.2</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -155,7 +160,8 @@
 
                         <Embed-Dependency>
                             mongodb-driver-sync,mongodb-driver-core,bson,
-                            jjwt-api,jjwt-impl,jjwt-jackson, spring-security-crypto
+                            jjwt-api,jjwt-impl,jjwt-jackson, spring-security-crypto,
+                            jackson-module-jaxb-annotations
                         </Embed-Dependency>
 
                         <Import-Package>
