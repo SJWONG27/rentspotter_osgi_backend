@@ -1,0 +1,7 @@
+landlordProperty\MongoClientProvider.class
+landlordProperty\App.class
+landlordProperty\Config.class
+landlordProperty\service\PropertyService.class
+landlordProperty\service\impl\PropertyServiceImpl.class
+landlordProperty\MongoTestApi.class
+landlordProperty\model\Property.class
