@@ -99,10 +99,23 @@
             <version>2.19.2</version>
         </dependency>
 
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.7.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>4.5.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -110,6 +123,12 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
             <version>6.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jaxb-annotations</artifactId>
+            <version>2.13.2</version> <!-- Using a compatible version -->
         </dependency>
 
         <!-- Dependencies on other modules -->
@@ -120,9 +139,17 @@
             <scope>provided</scope>
         </dependency>
 
+
         <dependency>
             <groupId>com.example.osgi</groupId>
             <artifactId>rentalspotter_landlordproperty</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.example.osgi</groupId>
+            <artifactId>rentalspotter_users</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
@@ -153,7 +180,8 @@
 
                         <Embed-Dependency>
                             mongodb-driver-sync,mongodb-driver-core,bson,
-                            jjwt-api,jjwt-impl,jjwt-jackson, spring-security-crypto
+                            jjwt-api,jjwt-impl,jjwt-jackson, spring-security-crypto,
+                            jackson-module-jaxb-annotations;inline=true
                         </Embed-Dependency>
 
                         <Import-Package>

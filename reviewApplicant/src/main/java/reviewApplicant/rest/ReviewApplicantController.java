@@ -4,7 +4,6 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import reviewApplicant.model.ApplicantReview;
 import reviewApplicant.service.ReviewApplicantService;
-import tenantApplication.model.Application;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,14 +11,11 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
 
-@Component(
-    service = ReviewApplicantController.class, 
-    property = { 
+@Component(service = ReviewApplicantController.class, property = {
         "osgi.jaxrs.resource=true",
         "osgi.jaxrs.application.select=(osgi.jaxrs.name=.default)"
-    }
-)
-@Path("/api/review")
+})
+@Path("/api/landlord/applicants")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ReviewApplicantController {
@@ -27,25 +23,22 @@ public class ReviewApplicantController {
     @Reference
     private ReviewApplicantService reviewApplicantService;
 
-    /**
-     * UC-12: View applicants for landlord's properties
-     * GET /api/review/landlord/{landlordId}/applications
-     */
+    // UC-26 & UC-27: View & Sort Applicant List
     @GET
-    @Path("/landlord/{landlordId}/applications")
+    @Path("/{landlordId}")
     public Response getApplicationsForLandlord(
             @PathParam("landlordId") String landlordId,
-            @QueryParam("sort") String sortOrder
-    ) {
+            @QueryParam("sortBy") String sortBy,
+            @QueryParam("order") String sortOrder) {
         try {
-            List<Application> applications;
-            
-            if (sortOrder != null && !sortOrder.isEmpty()) {
+            List<Map<String, Object>> applications;
+
+            if ("rating".equalsIgnoreCase(sortBy)) {
                 applications = reviewApplicantService.getApplicationsForLandlordSorted(landlordId, sortOrder);
             } else {
                 applications = reviewApplicantService.getApplicationsForLandlord(landlordId);
             }
-            
+
             return Response.ok(applications).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -54,44 +47,15 @@ public class ReviewApplicantController {
         }
     }
 
-    /**
-     * UC-13: Accept or reject an applicant
-     * POST /api/review/application/{applicationId}/review
-     * Body: { "landlordId": "...", "decision": "APPROVED"/"REJECTED", "feedback": "..." }
-     */
-    @POST
-    @Path("/application/{applicationId}/review")
-    public Response reviewApplication(
-            @PathParam("applicationId") String applicationId,
-            Map<String, Object> payload
-    ) {
+    // View Applicant Details (Info + Reviews)
+    @GET
+    @Path("/applicant-info/{tenantId}")
+    public Response getApplicantDetails(@PathParam("tenantId") String tenantId) {
         try {
-            String landlordId = (String) payload.get("landlordId");
-            String decisionStr = (String) payload.get("decision");
-            String feedback = (String) payload.get("feedback");
-
-            if (landlordId == null || decisionStr == null) {
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity(Map.of("error", "landlordId and decision are required"))
-                        .build();
-            }
-
-            ApplicantReview.ReviewDecision decision;
-            try {
-                decision = ApplicantReview.ReviewDecision.valueOf(decisionStr.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity(Map.of("error", "Invalid decision. Use APPROVED or REJECTED"))
-                        .build();
-            }
-
-            ApplicantReview review = reviewApplicantService.reviewApplication(
-                    applicationId, landlordId, decision, feedback
-            );
-
-            return Response.ok(review).build();
+            Map<String, Object> details = reviewApplicantService.getApplicantDetails(tenantId);
+            return Response.ok(details).build();
         } catch (RuntimeException e) {
-            return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.NOT_FOUND)
                     .entity(Map.of("error", e.getMessage()))
                     .build();
         } catch (Exception e) {
@@ -101,21 +65,81 @@ public class ReviewApplicantController {
         }
     }
 
-    /**
-     * UC-14: Leave feedback on tenant (integrated with accept/reject above)
-     * This is handled by the reviewApplication endpoint with the feedback field
-     */
-
-    /**
-     * View review history for a landlord
-     * GET /api/review/landlord/{landlordId}/history
-     */
+    // UC-28: View Reviews History
     @GET
-    @Path("/landlord/{landlordId}/history")
+    @Path("/feedback/{landlordId}")
     public Response getReviewHistory(@PathParam("landlordId") String landlordId) {
         try {
             List<ApplicantReview> reviews = reviewApplicantService.getReviewHistory(landlordId);
             return Response.ok(reviews).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Map.of("error", e.getMessage()))
+                    .build();
+        }
+    }
+
+    // UC-30: Accept Applicant
+    @PUT
+    @Path("/accept/{applicationId}")
+    public Response acceptApplication(
+            @PathParam("applicationId") String applicationId,
+            Map<String, Object> payload) {
+        String landlordId = (String) payload.get("landlordId");
+        String feedback = (String) payload.get("feedback");
+
+        if (landlordId == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(Map.of("error", "landlordId is required"))
+                    .build();
+        }
+
+        try {
+            reviewApplicantService.acceptApplication(applicationId, landlordId, feedback);
+            return Response.ok(Map.of("message", "Application accepted successfully")).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(Map.of("error", e.getMessage()))
+                    .build();
+        }
+    }
+
+    // UC-31: Reject Applicant
+    @PUT
+    @Path("/reject/{applicationId}")
+    public Response rejectApplication(
+            @PathParam("applicationId") String applicationId,
+            Map<String, Object> payload) {
+        String landlordId = (String) payload.get("landlordId");
+        String feedback = (String) payload.get("feedback");
+
+        if (landlordId == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(Map.of("error", "landlordId is required"))
+                    .build();
+        }
+
+        try {
+            reviewApplicantService.rejectApplication(applicationId, landlordId, feedback);
+            return Response.ok(Map.of("message", "Application rejected successfully")).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(Map.of("error", e.getMessage()))
+                    .build();
+        }
+    }
+
+    // UC-29: Contact Applicant
+    @POST
+    @Path("/contact/{applicationId}")
+    public Response contactApplicant(
+            @PathParam("applicationId") String applicationId,
+            Map<String, Object> payload) {
+        String message = (String) payload.get("message");
+
+        try {
+            reviewApplicantService.contactApplicant(applicationId, message);
+            return Response.ok(Map.of("message", "Email sent successfully")).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(Map.of("error", e.getMessage()))

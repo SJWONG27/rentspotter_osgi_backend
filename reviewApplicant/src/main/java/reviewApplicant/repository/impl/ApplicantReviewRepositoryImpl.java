@@ -22,7 +22,7 @@ public class ApplicantReviewRepositoryImpl implements ApplicantReviewRepository 
     @Reference
     private MongoClientProvider mongoClientProvider;
 
-    private static final String DB_NAME = "test";
+    private static final String DB_NAME = "rentspotter_db";
     private static final String COLLECTION_NAME = "applicant_reviews";
 
     private MongoCollection<Document> getCollection() {
@@ -59,8 +59,16 @@ public class ApplicantReviewRepositoryImpl implements ApplicantReviewRepository 
     public List<ApplicantReview> findByLandlordId(String landlordId) {
         MongoCollection<Document> collection = getCollection();
         return StreamSupport.stream(
-                collection.find(Filters.eq("landlordId", landlordId)).spliterator(), false
-        ).map(this::toApplicantReview).collect(Collectors.toList());
+                collection.find(Filters.eq("landlordId", landlordId)).spliterator(), false).map(this::toApplicantReview)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ApplicantReview> findByTenantId(String tenantId) {
+        MongoCollection<Document> collection = getCollection();
+        return StreamSupport.stream(
+                collection.find(Filters.eq("tenantId", tenantId)).spliterator(), false).map(this::toApplicantReview)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -76,9 +84,8 @@ public class ApplicantReviewRepositoryImpl implements ApplicantReviewRepository 
         Document doc = collection.find(
                 Filters.and(
                         Filters.eq("applicationId", applicationId),
-                        Filters.eq("landlordId", landlordId)
-                )
-        ).first();
+                        Filters.eq("landlordId", landlordId)))
+                .first();
         return doc != null ? Optional.of(toApplicantReview(doc)) : Optional.empty();
     }
 
@@ -118,12 +125,12 @@ public class ApplicantReviewRepositoryImpl implements ApplicantReviewRepository 
         review.setLandlordId(doc.getString("landlordId"));
         review.setTenantId(doc.getString("tenantId"));
         review.setPropertyId(doc.getString("propertyId"));
-        
+
         String decisionStr = doc.getString("decision");
         if (decisionStr != null) {
             review.setDecision(ApplicantReview.ReviewDecision.valueOf(decisionStr));
         }
-        
+
         review.setFeedback(doc.getString("feedback"));
         review.setReviewDate(doc.getDate("reviewDate"));
         return review;

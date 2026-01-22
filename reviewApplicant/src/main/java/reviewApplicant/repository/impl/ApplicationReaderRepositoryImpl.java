@@ -42,8 +42,8 @@ public class ApplicationReaderRepositoryImpl implements ApplicationReaderReposit
     public List<Application> findByPropertyIds(List<String> propertyIds) {
         MongoCollection<Document> collection = getCollection();
         return StreamSupport.stream(
-                collection.find(Filters.in("propertyId", propertyIds)).spliterator(), false
-        ).map(this::toApplication).collect(Collectors.toList());
+                collection.find(Filters.in("propertyId", propertyIds)).spliterator(), false).map(this::toApplication)
+                .collect(Collectors.toList());
     }
 
     private Application toApplication(Document doc) {
@@ -51,12 +51,12 @@ public class ApplicationReaderRepositoryImpl implements ApplicationReaderReposit
         app.setId(doc.getObjectId("_id").toHexString());
         app.setTenantId(doc.getString("tenantId"));
         app.setPropertyId(doc.getString("propertyId"));
-        
+
         String statusStr = doc.getString("status");
         if (statusStr != null) {
             app.setStatus(Application.ApplicationStatus.valueOf(statusStr));
         }
-        
+
         app.setApplicationDate(doc.getDate("applicationDate"));
         app.setMonthlyIncome(doc.getDouble("monthlyIncome"));
         app.setOccupation(doc.getString("occupation"));
