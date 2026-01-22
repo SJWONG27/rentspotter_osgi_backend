@@ -1,21 +1,26 @@
 package leaseAgreement.api.service;
 
-import leaseAgreement.api.model.LeaseAgreement;
-import java.util.*;
+import leaseAgreement.api.model.LeaseAgreementModel;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface LeaseAgreementService {
+    Optional<LeaseAgreementModel> findById(String id);
+    Optional<LeaseAgreementModel> findByApplicationId(String applicationId);
+    List<LeaseAgreementModel> findByTenantId(String tenantId);
+    LeaseAgreementModel save(LeaseAgreementModel lease);
+    Optional<LeaseAgreementModel> updateLease(String applicationId, LeaseAgreementModel data);
+    Optional<LeaseAgreementModel> submitLandlordLease(
+            String applicationId,
+            LeaseAgreementModel data
+    );
+    Optional<LeaseAgreementModel> submitTenantLease(
+            String leaseId,
+            String lesseeIc,
+            String lesseeDesignation,
+            String lesseeSignature
+    );
 
-    LeaseAgreement getLeaseById(String leaseId);
-    List<LeaseAgreement> getLeasesByUserId(String userId);
-
-    // Corresponds to submitLandlordLeaseAgreement
-    String submitLandlordLease(String applicationId, LeaseAgreement leaseData);
-
-    // Corresponds to submitTenantLeaseAgreement
-    void submitTenantLease(String leaseId, String lesseeIc, String lesseeDesignation, String lesseeSignature);
-
-    // Corresponds to savePDFToDB and getPDFFromDB
-    void savePdf(String leaseId, String pdfBase64);
-    String getPdf(String leaseId);
-
+    Optional<LeaseAgreementModel> savePdf(String leaseId, String pdfBase64);
 }
