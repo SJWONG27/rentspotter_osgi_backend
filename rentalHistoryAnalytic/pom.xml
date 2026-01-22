@@ -16,6 +16,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.38</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>osgi.core</artifactId>
             <version>8.0.0</version>
@@ -111,7 +117,6 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>6.2.1</version>
         </dependency>
-
     </dependencies>
 
     <build>
