@@ -11,6 +11,8 @@ import landlordProperty.service.PropertyService;
 import landlordProperty.model.Property;
 
 import java.util.Optional;
+import java.util.List;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -72,7 +74,36 @@ public class TenantApplicationServiceImplTest {
         verify(tenantApplicationRepository, never()).save(any(Application.class));
     }
 
-    // Scenario 3: Property not found
+    // Scenario 3: Input Validation for Application Submission
+    @Test
+    void submitApplication_InvalidInput() {
+        // Test 1: Empty Tenant ID
+        assertThrows(RuntimeException.class, () -> 
+            tenantApplicationService.submitApplication("", "P1", 100.0, "Occ", "Msg"), "Tenant ID is required"
+        );
+
+        // Test 2: Empty Property ID
+        assertThrows(RuntimeException.class, () -> 
+            tenantApplicationService.submitApplication("T1", "", 100.0, "Occ", "Msg"), "Property ID is required"
+        );
+
+        // Test 3: Zero or Negative Income
+        assertThrows(RuntimeException.class, () -> 
+            tenantApplicationService.submitApplication("T1", "P1", 0.0, "Occ", "Msg"), "Monthly income must be greater than 0"
+        );
+
+        // Test 4: Empty Occupation
+        assertThrows(RuntimeException.class, () -> 
+            tenantApplicationService.submitApplication("T1", "P1", 100.0, "", "Msg"), "Occupation is required"
+        );
+
+         // Test 5: Empty Message
+        assertThrows(RuntimeException.class, () -> 
+            tenantApplicationService.submitApplication("T1", "P1", 100.0, "Occ", ""), "Message is required"
+        );
+    }
+
+    // Scenario 4: Property not found
     @Test
     void submitApplication_PropertyNotFound() {
         when(propertyService.getPropertyById("P999")).thenReturn(Optional.empty());
@@ -83,8 +114,23 @@ public class TenantApplicationServiceImplTest {
         assertEquals("Property not found", exception.getMessage());
     }
 
+    // Method: getTenantApplications()
+    // Scenario 1: Retrieving Tenant Applications
+    @Test
+    void getTenantApplications_Success() {
+        String tenantId = "T123";
+        List<Application> mockList = java.util.Collections.singletonList(new Application());
+        when(tenantApplicationRepository.findByTenantId(tenantId)).thenReturn(mockList);
+
+        List<Application> result = tenantApplicationService.getTenantApplications(tenantId);
+        
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        verify(tenantApplicationRepository, times(1)).findByTenantId(tenantId);
+    }
+
     // Method: cancelApplication()
-    // Scenario 4: Successful cancellation
+    // Scenario 1: Successful cancellation
     @Test
     void cancelApplication_Success() {
         String appId = "APP001";
@@ -101,18 +147,59 @@ public class TenantApplicationServiceImplTest {
         verify(tenantApplicationRepository, times(1)).update(app);
     }
 
-    // Scenario 5: Unauthorized cancellation
+    // Scenario 2 & 3: Unauthorized & Not Pending
     @Test
-    void cancelApplication_Unauthorized() {
+    void cancelApplication_Validation() {
         String appId = "APP001";
-        Application app = new Application();
-        app.setTenantId("OTHER_TENANT");
         
-        when(tenantApplicationRepository.findById(appId)).thenReturn(Optional.of(app));
-
-        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+        // Case 1: Unauthorized
+        Application app1 = new Application();
+        app1.setTenantId("OTHER_TENANT");
+        when(tenantApplicationRepository.findById(appId)).thenReturn(Optional.of(app1));
+        
+        RuntimeException ex1 = assertThrows(RuntimeException.class, () ->
             tenantApplicationService.cancelApplication(appId, "T123")
         );
-        assertEquals("Unauthorized", exception.getMessage());
+        assertEquals("Unauthorized", ex1.getMessage());
+
+        // Case 2: Not Pending
+        Application app2 = new Application();
+        app2.setTenantId("T123");
+        app2.setStatus(Application.ApplicationStatus.APPROVED);
+        when(tenantApplicationRepository.findById(appId)).thenReturn(Optional.of(app2));
+
+        RuntimeException ex2 = assertThrows(RuntimeException.class, () ->
+            tenantApplicationService.cancelApplication(appId, "T123")
+        );
+        assertEquals("Cannot cancel non-pending application", ex2.getMessage());
     }
+
+    // Method: deleteApplication()
+    // Scenario 1 & 2: Deleting a Rejected Application & Deleting a Non-Rejected Application
+    @Test
+    void deleteApplication_Scenario() {
+        String appId = "APP001";
+        String tenantId = "T123";
+
+        // Case 1: Success (Rejected)
+        Application app1 = new Application();
+        app1.setTenantId(tenantId);
+        app1.setStatus(Application.ApplicationStatus.REJECTED);
+        when(tenantApplicationRepository.findById(appId)).thenReturn(Optional.of(app1));
+
+        tenantApplicationService.deleteApplication(appId, tenantId);
+        verify(tenantApplicationRepository, times(1)).delete(appId);
+
+        // Case 2: Failure (Not Rejected, e.g. Pending)
+        Application app2 = new Application();
+        app2.setTenantId(tenantId);
+        app2.setStatus(Application.ApplicationStatus.PENDING);
+        when(tenantApplicationRepository.findById(appId)).thenReturn(Optional.of(app2));
+
+        RuntimeException ex = assertThrows(RuntimeException.class, () ->
+            tenantApplicationService.deleteApplication(appId, tenantId)
+        );
+        assertEquals("Only rejected applications can be deleted", ex.getMessage());
+    }
+
 }
