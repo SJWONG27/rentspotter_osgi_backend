@@ -1,0 +1,13 @@
+reviewApplicant\repository\ApplicationReaderRepository.class
+reviewApplicant\service\impl\ReviewApplicantServiceImpl.class
+reviewApplicant\repository\ApplicantReviewRepository.class
+reviewApplicant\App.class
+reviewApplicant\MongoTestApi.class
+reviewApplicant\model\ApplicantReview.class
+reviewApplicant\service\ReviewApplicantService.class
+reviewApplicant\repository\impl\ApplicantReviewRepositoryImpl.class
+reviewApplicant\repository\impl\ApplicationReaderRepositoryImpl.class
+reviewApplicant\Config.class
+reviewApplicant\model\ApplicantReview$ReviewDecision.class
+reviewApplicant\rest\ReviewApplicantController.class
+reviewApplicant\MongoClientProvider.class
