@@ -3,5 +3,6 @@ landlordProperty\App.class
 landlordProperty\Config.class
 landlordProperty\service\PropertyService.class
 landlordProperty\service\impl\PropertyServiceImpl.class
+landlordProperty\api\PropertyResource.class
 landlordProperty\MongoTestApi.class
 landlordProperty\model\Property.class
